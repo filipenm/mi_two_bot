@@ -1,16 +1,12 @@
-package com.binance_bot.bot;
+package com.binance_bot.commands;
 
 import com.binance_bot.binance.Binance;
-import com.github.kshashov.telegram.api.TelegramMvcController;
-import com.github.kshashov.telegram.api.bind.annotation.BotController;
 import com.github.kshashov.telegram.api.bind.annotation.BotPathVariable;
 import com.github.kshashov.telegram.api.bind.annotation.BotRequest;
 
-
 import static com.binance_bot.core.constants.IMessageConstants.INVALID_COIN_PAIR;
 
-public class BotCommands {
-
+public class CoinPrice extends CommandBase {
     Binance binance = new Binance();
 
     @BotRequest(value = "/price {name:[\\S]+}")
@@ -26,14 +22,10 @@ public class BotCommands {
         }
     }
 
-    @BotRequest(value = "/start")
-    public String start() {
-        return "Hi, available commands listed below.";
-    }
-
     @BotRequest(value = "/price_of_pair {first:[\\S]+} {second:[\\S]+}")
     public String priceOfPair(@BotPathVariable("first") String firstCoin, @BotPathVariable("second") String secondCoin) {
         String price = binance.getPrice(firstCoin, secondCoin);
+
         return (price == null) ? INVALID_COIN_PAIR : firstCoin + " costs " + price + " of " + secondCoin;
     }
 }

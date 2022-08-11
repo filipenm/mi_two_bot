@@ -21,6 +21,7 @@ public class BinanceBot extends TelegramLongPollingBot {
     @Setter
     @Getter
     String userName;
+    
     @Setter
     @Getter
     String token;
@@ -28,6 +29,7 @@ public class BinanceBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        app.log().debug(update);
 
         Long chatId = update.getMessage().getChatId();
         String inputText = update.getMessage().getText();
@@ -37,6 +39,7 @@ public class BinanceBot extends TelegramLongPollingBot {
             message.setChatId(chatId);
             message.setText("Hello. This is start message");
             try {
+                app.log().debug(message);
                 execute(message);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
@@ -46,6 +49,7 @@ public class BinanceBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
+        app.log().debug(userName);
         return userName;
     }
 
