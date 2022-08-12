@@ -21,23 +21,26 @@ public class CommandBase {
 
         String inputText = update.getMessage().getText();
         List<String> words = Arrays.asList(inputText.split(" "));
+        app.log().debug(words);
         switch(words.get(0)) {
             case "/start":
                 StartCommand startCommand = new StartCommand();
-                startCommand.start();
+                message = startCommand.execute(message);
                 break;
-            case "/coin_price":
+            case "/price":
                 CoinPrice coinPrice = new CoinPrice();
                 if (words.size() > 2) {
-                    coinPrice.ofPair(words.get(1),words.get(2));
+                    coinPrice.execute(words.get(1),words.get(2), message);
                 }
                 else  {
-                    coinPrice.ofPair(words.get(1), USDT);
+                    coinPrice.execute(words.get(1), USDT, message);
                 }
                 break;
             default:
-                message.setText("Unable to find proper command");
+                UndefinedCommand undefined = new UndefinedCommand();
+                undefined.execute(message);
         }
+        app.log().debug(message);
         return message;
     }
 }
