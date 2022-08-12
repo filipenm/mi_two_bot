@@ -1,10 +1,11 @@
 package com.binance_bot.bot;
 
+import com.binance_bot.commands.CommandBase;
 import com.binance_bot.core.ApplicationManager;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Getter;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
@@ -21,7 +22,7 @@ public class BinanceBot extends TelegramLongPollingBot {
     @Setter
     @Getter
     String userName;
-    
+
     @Setter
     @Getter
     String token;
@@ -30,20 +31,12 @@ public class BinanceBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         app.log().debug(update);
-
-        Long chatId = update.getMessage().getChatId();
-        String inputText = update.getMessage().getText();
-
-        if (inputText.startsWith("/start")) {
-            SendMessage message = new SendMessage();
-            message.setChatId(chatId);
-            message.setText("Hello. This is start message");
-            try {
-                app.log().debug(message);
-                execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        CommandBase commandBase = new CommandBase();
+        SendMessage message = commandBase.commandHandler(update);
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
