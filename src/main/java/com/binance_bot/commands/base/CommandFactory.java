@@ -16,11 +16,10 @@ import static com.binance_bot.core.constants.ITickerConstants.USDT;
 
 public class CommandFactory {
     protected static ApplicationManager app = ApplicationManager.get();
-    protected Binance binance = new Binance();
-    protected SendMessage message = new SendMessage();
+    protected static Binance binance = new Binance();
+    protected static SendMessage message = new SendMessage();
 
     public SendMessage commandHandler(Update update) {
-
         Long chatId = update.getMessage().getChatId();
         message.setChatId(chatId);
 
@@ -35,16 +34,16 @@ public class CommandFactory {
             case "/price" -> {
                 CoinPrice coinPrice = new CoinPrice();
                 if (words.size() > 2) {
-                    coinPrice.execute(words.get(1),words.get(2));
+                    message = coinPrice.execute(words.get(1),words.get(2));
                 }
                 else if (words.size() == 2){
-                    coinPrice.execute(words.get(1), USDT);
+                    message = coinPrice.execute(words.get(1), USDT);
                 }
-                else coinPrice.execute();
+                else message = coinPrice.execute();
             }
             default -> {
                 UndefinedCommand undefined = new UndefinedCommand();
-                undefined.execute();
+                message = undefined.execute();
             }
         }
         app.log().debug(message);
