@@ -1,6 +1,6 @@
 package com.binance_bot.bot;
 
-import com.binance_bot.commands.CommandBase;
+import com.binance_bot.commands.base.CommandFactory;
 import com.binance_bot.core.ApplicationManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,8 +31,8 @@ public class BinanceBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         app.log().debug(update);
-        CommandBase commandBase = new CommandBase();
-        SendMessage message = commandBase.commandHandler(update);
+        CommandFactory command = new CommandFactory();
+        SendMessage message = command.commandHandler(update);
         try {
             execute(message);
         } catch (TelegramApiException e) {
