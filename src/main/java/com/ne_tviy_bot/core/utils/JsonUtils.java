@@ -1,4 +1,4 @@
-package com.binance_bot.core.utils;
+package com.ne_tviy_bot.core.utils;
 
 import com.jayway.jsonpath.JsonPath;
 

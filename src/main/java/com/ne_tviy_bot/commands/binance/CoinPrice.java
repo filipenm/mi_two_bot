@@ -1,10 +1,10 @@
-package com.binance_bot.commands;
+package com.ne_tviy_bot.commands.binance;
 
-import com.binance_bot.commands.base.Command;
-import com.binance_bot.commands.base.CommandFactory;
+import com.ne_tviy_bot.commands.base.Command;
+import com.ne_tviy_bot.commands.base.CommandFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 
-import static com.binance_bot.core.constants.IMessageConstants.INVALID_COIN_PAIR;
+import static com.ne_tviy_bot.core.constants.MessageConstants.INVALID_COIN_PAIR;
 
 public class CoinPrice extends CommandFactory implements Command {
     public SendMessage execute(String firstCoin, String secondCoin) {

@@ -1,4 +1,4 @@
-package com.binance_bot.bot;
+package com.ne_tviy_bot.bot;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

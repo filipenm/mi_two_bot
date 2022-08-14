@@ -1,7 +1,7 @@
-package com.binance_bot.bot;
+package com.ne_tviy_bot.bot;
 
-import com.binance_bot.commands.base.CommandFactory;
-import com.binance_bot.core.ApplicationManager;
+import com.ne_tviy_bot.commands.base.CommandFactory;
+import com.ne_tviy_bot.core.ApplicationManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

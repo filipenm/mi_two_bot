@@ -1,4 +1,4 @@
-package com.binance_bot.bot;
+package com.ne_tviy_bot.bot;
 
 import org.springframework.beans.factory.annotation.Value;
 

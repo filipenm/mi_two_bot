@@ -1,4 +1,4 @@
-package com.binance_bot.commands.base;
+package com.ne_tviy_bot.commands.base;
 
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 

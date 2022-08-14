@@ -1,4 +1,4 @@
-package com.binance_bot.core.helpers;
+package com.ne_tviy_bot.core.helpers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

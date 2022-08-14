@@ -1,7 +1,7 @@
-package com.binance_bot.core;
+package com.ne_tviy_bot.core;
 
-import com.binance_bot.core.helpers.BinanceHelper;
-import com.binance_bot.core.helpers.LogHelper;
+import com.ne_tviy_bot.core.helpers.BinanceHelper;
+import com.ne_tviy_bot.core.helpers.LogHelper;
 
 public class ApplicationManager {
     private final static ApplicationManager INSTANCE = new ApplicationManager();
