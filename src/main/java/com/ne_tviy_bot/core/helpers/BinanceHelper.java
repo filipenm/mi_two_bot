@@ -14,11 +14,9 @@ public class BinanceHelper extends HelperBase {
             response = RequestUtils.get(url).asString();
             price = JsonUtils.getElementByJsonpath(response, "price");
             app.log().debug(price);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             app.log().error("Unable to find price for the coin pair");
-        }
-        finally {
+        } finally {
             return price;
         }
     }

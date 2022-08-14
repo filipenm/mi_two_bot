@@ -1,8 +1,8 @@
 package com.ne_tviy_bot;
 
-import com.ne_tviy_bot.bot.NeTviyBot;
 import com.ne_tviy_bot.bot.BotConfig;
 import com.ne_tviy_bot.bot.ClientBean;
+import com.ne_tviy_bot.bot.NeTviyBot;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.telegram.telegrambots.ApiContextInitializer;
 
