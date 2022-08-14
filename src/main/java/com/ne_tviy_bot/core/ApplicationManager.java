@@ -2,11 +2,13 @@ package com.ne_tviy_bot.core;
 
 import com.ne_tviy_bot.core.helpers.BinanceHelper;
 import com.ne_tviy_bot.core.helpers.LogHelper;
+import com.ne_tviy_bot.core.helpers.MusicHelper;
 
 public class ApplicationManager {
     private final static ApplicationManager INSTANCE = new ApplicationManager();
-    private BinanceHelper binance;
+    private BinanceHelper binanceHelper;
     private LogHelper logHelper;
+    private MusicHelper musicHelper;
 
     public static ApplicationManager get() {
         return INSTANCE;
@@ -21,9 +23,16 @@ public class ApplicationManager {
     }
 
     public BinanceHelper binance() {
-        if (binance == null) {
-            binance = new BinanceHelper();
+        if (binanceHelper == null) {
+            binanceHelper = new BinanceHelper();
         }
-        return binance;
+        return binanceHelper;
+    }
+
+    public MusicHelper music() {
+        if (musicHelper == null) {
+            musicHelper = new MusicHelper();
+        }
+        return musicHelper;
     }
 }
