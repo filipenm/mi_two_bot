@@ -15,7 +15,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class BinanceBot extends TelegramLongPollingBot {
+public class NeTviyBot extends TelegramLongPollingBot {
     protected static ApplicationManager app = ApplicationManager.get();
     protected static CommandFactory command = new CommandFactory();
     final int RECONNECT_PAUSE = 10000;
