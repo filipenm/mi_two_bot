@@ -1,7 +1,7 @@
-package com.binance_bot.commands;
+package com.ne_tviy_bot.commands;
 
-import com.binance_bot.commands.base.Command;
-import com.binance_bot.commands.base.CommandFactory;
+import com.ne_tviy_bot.commands.base.Command;
+import com.ne_tviy_bot.commands.base.CommandFactory;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 
 public class UndefinedCommand extends CommandFactory implements Command {

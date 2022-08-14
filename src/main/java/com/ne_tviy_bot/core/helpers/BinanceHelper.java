@@ -1,9 +1,9 @@
-package com.binance_bot.core.helpers;
+package com.ne_tviy_bot.core.helpers;
 
-import com.binance_bot.core.utils.JsonUtils;
-import com.binance_bot.core.utils.RequestUtils;
+import com.ne_tviy_bot.core.utils.JsonUtils;
+import com.ne_tviy_bot.core.utils.RequestUtils;
 
-import static com.binance_bot.core.constants.IUrlConstants.BINANCE_API_URI;
+import static com.ne_tviy_bot.core.constants.UrlConstants.BINANCE_API_URI;
 
 public class BinanceHelper extends HelperBase {
     public String getPrice(String firstCoin, String secondCoin) {

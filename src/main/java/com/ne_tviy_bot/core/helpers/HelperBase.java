@@ -1,6 +1,6 @@
-package com.binance_bot.core.helpers;
+package com.ne_tviy_bot.core.helpers;
 
-import com.binance_bot.core.ApplicationManager;
+import com.ne_tviy_bot.core.ApplicationManager;
 
 public class HelperBase {
     protected static ApplicationManager app = ApplicationManager.get();
