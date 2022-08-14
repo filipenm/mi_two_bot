@@ -1,6 +1,6 @@
 package com.binance_bot.bot;
 
-import com.binance_bot.commands.CommandBase;
+import com.binance_bot.commands.base.CommandFactory;
 import com.binance_bot.core.ApplicationManager;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +17,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
 @NoArgsConstructor
 public class BinanceBot extends TelegramLongPollingBot {
     protected static ApplicationManager app = ApplicationManager.get();
+    protected static CommandFactory command = new CommandFactory();
     final int RECONNECT_PAUSE = 10000;
 
     @Setter
@@ -31,8 +32,7 @@ public class BinanceBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         app.log().debug(update);
-        CommandBase commandBase = new CommandBase();
-        SendMessage message = commandBase.commandHandler(update);
+        SendMessage message = command.commandHandler(update);
         try {
             execute(message);
         } catch (TelegramApiException e) {
