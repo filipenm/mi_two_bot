@@ -1,6 +1,5 @@
 package com.binance_bot.commands.base;
 
-import com.binance_bot.binance.Binance;
 import com.binance_bot.commands.CoinPrice;
 import com.binance_bot.commands.StartCommand;
 import com.binance_bot.commands.UndefinedCommand;
@@ -16,7 +15,6 @@ import static com.binance_bot.core.constants.ITickerConstants.USDT;
 
 public class CommandFactory {
     protected static ApplicationManager app = ApplicationManager.get();
-    protected static Binance binance = new Binance();
     protected static SendMessage message = new SendMessage();
 
     public SendMessage commandHandler(Update update) {
@@ -33,7 +31,7 @@ public class CommandFactory {
             }
             case "/price" -> {
                 CoinPrice coinPrice = new CoinPrice();
-                if (words.size() > 2) {
+                if (words.size() == 3) {
                     message = coinPrice.execute(words.get(1),words.get(2));
                 }
                 else if (words.size() == 2){
