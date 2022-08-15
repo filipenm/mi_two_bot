@@ -5,5 +5,5 @@ public enum BotState {
     BINANCE,
     WEATHER,
     NOTIFICATION,
-    MAIN_MENU;
+    MAIN_MENU
 }

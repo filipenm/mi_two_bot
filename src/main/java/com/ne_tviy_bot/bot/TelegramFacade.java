@@ -10,12 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 
-@Service
 @Slf4j
+@Service
 public class TelegramFacade {
-    private static ApplicationManager app = ApplicationManager.get();
-    private UserDataCache userDataCache;
-    private BotStateContext botStateContext;
+    private static final ApplicationManager app = ApplicationManager.get();
+    private final UserDataCache userDataCache;
+    private final BotStateContext botStateContext;
 
     public TelegramFacade(UserDataCache userDataCache, BotStateContext botStateContext) {
         this.userDataCache = userDataCache;

@@ -11,8 +11,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
 public class MainMenuHandler implements InputMessageHandler {
-    private ReplyMessagesService messagesService;
-    private MainMenuService mainMenuService;
+    private final ReplyMessagesService messagesService;
+    private final MainMenuService mainMenuService;
 
     public MainMenuHandler(ReplyMessagesService messagesService, MainMenuService mainMenuService) {
         this.messagesService = messagesService;

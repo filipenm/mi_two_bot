@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.ApiContext;
 @Configuration
 public class AppConfig {
 
-    private NeTviyBotConfig botConfig;
+    private final NeTviyBotConfig botConfig;
 
     public AppConfig(NeTviyBotConfig neTviyBotConfig) {
         this.botConfig = neTviyBotConfig;

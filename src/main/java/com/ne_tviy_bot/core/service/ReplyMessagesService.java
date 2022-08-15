@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Service
 public class ReplyMessagesService {
-    private LocaleMessageService localeMessageService;
+    private final LocaleMessageService localeMessageService;
 
     public ReplyMessagesService(LocaleMessageService messageService) {
         this.localeMessageService = messageService;
