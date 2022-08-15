@@ -1,21 +1,20 @@
 package com.ne_tviy_bot;
 
-import com.ne_tviy_bot.bot.BotConfig;
-import com.ne_tviy_bot.bot.ClientBean;
-import com.ne_tviy_bot.bot.NeTviyBot;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.telegram.telegrambots.ApiContextInitializer;
 
 
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@EnableScheduling
 public class Main {
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(BotConfig.class);
-        ClientBean bean = context.getBean(ClientBean.class);
         ApiContextInitializer.init();
 
-        NeTviyBot bot = new NeTviyBot(bean.getBotName(), bean.getToken());
-        bot.botConnect();
+        SpringApplication.run(Main.class, args);
     }
 }

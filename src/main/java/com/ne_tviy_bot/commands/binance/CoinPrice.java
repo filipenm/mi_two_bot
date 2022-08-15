@@ -2,7 +2,7 @@ package com.ne_tviy_bot.commands.binance;
 
 import com.ne_tviy_bot.commands.base.Command;
 import com.ne_tviy_bot.commands.base.CommandFactory;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import static com.ne_tviy_bot.core.constants.MessageConstants.INVALID_COIN_PAIR;
 

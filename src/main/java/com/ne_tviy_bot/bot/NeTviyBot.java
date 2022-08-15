@@ -1,68 +1,33 @@
 package com.ne_tviy_bot.bot;
 
-import com.ne_tviy_bot.commands.base.CommandFactory;
-import com.ne_tviy_bot.core.ApplicationManager;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Update;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.exceptions.TelegramApiRequestException;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
+@Slf4j
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class NeTviyBot extends TelegramLongPollingBot {
-    protected static ApplicationManager app = ApplicationManager.get();
-    protected static CommandFactory command = new CommandFactory();
-    final int RECONNECT_PAUSE = 10000;
+    String botUsername;
+    String botToken;
 
-    @Setter
-    @Getter
-    String userName;
+    private TelegramFacade telegramFacade;
 
-    @Setter
-    @Getter
-    String token;
+    public NeTviyBot(DefaultBotOptions options, TelegramFacade telegramFacade) {
+        super(options);
+        this.telegramFacade = telegramFacade;
+    }
 
 
-    @Override
     public void onUpdateReceived(Update update) {
-        app.log().debug(update);
-        SendMessage message = command.commandHandler(update);
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        telegramFacade.handleUpdate(update);
     }
 
-    @Override
-    public String getBotUsername() {
-        app.log().debug(userName);
-        return userName;
-    }
-
-    @Override
-    public String getBotToken() {
-        return token;
-    }
-
-    public void botConnect() {
-        TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(this);
-        } catch (TelegramApiRequestException e) {
-            try {
-                Thread.sleep(RECONNECT_PAUSE);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-                return;
-            }
-            botConnect();
-        }
-    }
 }

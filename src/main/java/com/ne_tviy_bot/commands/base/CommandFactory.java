@@ -5,8 +5,8 @@ import com.ne_tviy_bot.commands.UndefinedCommand;
 import com.ne_tviy_bot.commands.binance.CoinPrice;
 import com.ne_tviy_bot.commands.music.LinkConverter;
 import com.ne_tviy_bot.core.ApplicationManager;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +34,7 @@ public class CommandFactory {
                 LinkConverter linkConverter = new LinkConverter();
                 message = linkConverter.execute();
             }
-            case "binance" -> {
-                message = message.setText("Not in development");
-            }
+            case "binance" -> message = message.setText("Not in development");
             case "/price" -> {
                 CoinPrice coinPrice = new CoinPrice();
                 if (words.size() == 3) {
