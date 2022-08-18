@@ -12,7 +12,7 @@ import java.util.List;
 public class StartCommand extends CommandFactory implements Command {
     @Override
     public SendMessage execute() {
-        message.setText("List of available commands:");
+        message.setText("Цей блять як його:");
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
