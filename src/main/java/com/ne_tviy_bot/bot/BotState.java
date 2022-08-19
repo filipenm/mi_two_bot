@@ -6,5 +6,6 @@ public enum BotState {
     COIN_PAIR,
     WEATHER,
     NOTIFICATION,
-    MAIN_MENU
+    MAIN_MENU,
+    CHANGE_LINK;
 }
