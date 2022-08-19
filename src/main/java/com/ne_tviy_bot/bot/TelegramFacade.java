@@ -45,30 +45,22 @@ public class TelegramFacade {
         switch (userDataCache.getUsersCurrentBotState(userId)) {
             case BINANCE -> {
                 BinanceStateHandler binanceStateHandler = new BinanceStateHandler();
-                //binanceStateHandler.handle(message);
+                botState = binanceStateHandler.handle(message, userDataCache);
             }
             case MUSIC -> {
                 MusicStateHandler musicStateHandler = new MusicStateHandler();
             }
-            default -> {}
+            default -> {
+
+            }
         }
 
         switch (inputMsg) {
-            case "Музика" -> {
-                botState = BotState.MUSIC;
-            }
-            case "Binance" -> {
-                botState = BotState.BINANCE;
-            }
-            case "Нагадування" -> {
-                botState = BotState.NOTIFICATION;
-            }
-            case "Погода" -> {
-                botState = BotState.WEATHER;
-            }
-            default -> {
-                botState = userDataCache.getUsersCurrentBotState(userId);
-            }
+            case "Музика" -> botState = BotState.MUSIC;
+            case "Binance" -> botState = BotState.BINANCE;
+            case "Нагадування" -> botState = BotState.NOTIFICATION;
+            case "Погода" -> botState = BotState.WEATHER;
+            default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
 
         userDataCache.setUsersCurrentBotState(userId, botState);

@@ -53,6 +53,6 @@ public class BotStateContext {
     }
 
     private boolean isCoinPairState(BotState currentState) {
-        return currentState == BotState.BINANCE;
+        return currentState == BotState.COIN_PAIR;
     }
 }
