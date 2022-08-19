@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MainMenuService {
-    public SendMessage getMainMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
+public class BinanceMenuService {
+    public SendMessage getBinanceMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getBinanceMenuKeyboard();
         final SendMessage mainMenuMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
         return mainMenuMessage;
     }
 
-    private ReplyKeyboardMarkup getMainMenuKeyboard() {
+    private ReplyKeyboardMarkup getBinanceMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
@@ -29,10 +29,8 @@ public class MainMenuService {
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        row1.add(new KeyboardButton("Музика"));
-        row1.add(new KeyboardButton("Binance"));
-        row2.add(new KeyboardButton("Нагадування"));
-        row2.add(new KeyboardButton("Погода"));
+        row1.add(new KeyboardButton("Ціна пари"));
+        row2.add(new KeyboardButton("Назад"));
         keyboard.add(row1);
         keyboard.add(row2);
 

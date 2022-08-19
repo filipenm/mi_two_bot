@@ -27,16 +27,32 @@ public class BotStateContext {
         if (isMusicState(currentState)) {
             return messageHandlers.get(BotState.MUSIC);
         }
+        if (isMainMenuState(currentState)) {
+            return messageHandlers.get(BotState.MAIN_MENU);
+        }
+        if (isBinanceState(currentState)) {
+            return messageHandlers.get(BotState.BINANCE);
+        }
+        if (isCoinPairState(currentState)) {
+            return messageHandlers.get(BotState.COIN_PAIR);
+        }
         return messageHandlers.get(currentState);
     }
 
+
     private boolean isMusicState(BotState currentState) {
-        switch (currentState) {
-            case MUSIC:
-                return true;
-            default:
-                return false;
-        }
+        return currentState == BotState.MUSIC;
     }
 
+    private boolean isMainMenuState(BotState currentState) {
+        return currentState == BotState.MAIN_MENU;
+    }
+
+    private boolean isBinanceState(BotState currentState) {
+        return currentState == BotState.BINANCE;
+    }
+
+    private boolean isCoinPairState(BotState currentState) {
+        return currentState == BotState.BINANCE;
+    }
 }

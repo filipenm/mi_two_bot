@@ -2,34 +2,31 @@ package com.ne_tviy_bot.bot.components.handlers.menu;
 
 import com.ne_tviy_bot.bot.BotState;
 import com.ne_tviy_bot.bot.components.handlers.InputMessageHandler;
-import com.ne_tviy_bot.core.service.MainMenuService;
+import com.ne_tviy_bot.core.service.BinanceMenuService;
 import com.ne_tviy_bot.core.service.ReplyMessagesService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-
-import static com.ne_tviy_bot.core.constants.MessageConstants.LIST_OF_COMMANDS;
-
+import static com.ne_tviy_bot.core.constants.MessageConstants.CHOOSE_COMMAND_BINANCE_MENU;
 
 @Component
-public class MainMenuHandler implements InputMessageHandler {
+public class BinanceMenuHandler implements InputMessageHandler {
     private final ReplyMessagesService messagesService;
-    private final MainMenuService mainMenuService;
+    private final BinanceMenuService binanceMenuService;
 
-    public MainMenuHandler(ReplyMessagesService messagesService, MainMenuService mainMenuService) {
+    public BinanceMenuHandler(ReplyMessagesService messagesService, BinanceMenuService binanceMenuService) {
         this.messagesService = messagesService;
-        this.mainMenuService = mainMenuService;
+        this.binanceMenuService = binanceMenuService;
     }
 
     @Override
     public SendMessage handle(Message message) {
-        return mainMenuService.getMainMenuMessage(message.getChatId(), LIST_OF_COMMANDS);
+        return binanceMenuService.getBinanceMenuMessage(message.getChatId(), CHOOSE_COMMAND_BINANCE_MENU);
     }
 
     @Override
     public BotState getHandlerName() {
-        return BotState.MAIN_MENU;
+        return BotState.BINANCE;
     }
-
 }
