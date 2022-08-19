@@ -1,4 +1,4 @@
-package com.ne_tviy_bot.core.service;
+package com.ne_tviy_bot.bot.service;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,36 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MainMenuService {
-    public SendMessage getMainMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
+public class BinanceMenuService {
+    public SendMessage getBinanceMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getBinanceMenuKeyboard();
         final SendMessage mainMenuMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
         return mainMenuMessage;
     }
 
-    private ReplyKeyboardMarkup getMainMenuKeyboard() {
+    private ReplyKeyboardMarkup getBinanceMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        KeyboardRow row3 = new KeyboardRow();
-        KeyboardRow row4 = new KeyboardRow();
-        row1.add(new KeyboardButton("Музика"));
-        row2.add(new KeyboardButton("Binance"));
-        row3.add(new KeyboardButton("Погода"));
-        row4.add(new KeyboardButton("Нагадування"));
+        row1.add(new KeyboardButton("Ціна пари"));
+        row2.add(new KeyboardButton("Назад"));
         keyboard.add(row1);
         keyboard.add(row2);
-        keyboard.add(row3);
-        keyboard.add(row4);
+
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

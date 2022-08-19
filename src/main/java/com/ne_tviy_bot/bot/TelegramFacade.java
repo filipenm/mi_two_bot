@@ -1,6 +1,8 @@
 package com.ne_tviy_bot.bot;
 
 import com.ne_tviy_bot.bot.components.BotStateContext;
+import com.ne_tviy_bot.bot.state_handlers.BinanceStateHandler;
+import com.ne_tviy_bot.bot.state_handlers.MusicStateHandler;
 import com.ne_tviy_bot.cache.UserDataCache;
 import com.ne_tviy_bot.core.ApplicationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +27,12 @@ public class TelegramFacade {
     public SendMessage handleUpdate(Update update) {
         SendMessage replyMessage = null;
 
-
         Message message = update.getMessage();
         if (message != null && message.hasText()) {
-            app.log().info("New message from User:{}, chatId: {},  with text: {}",
-                    message.getFrom().getUserName(), message.getChatId(), message.getText());
+            app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
+                    message.getFrom().getUserName(), message.getChatId(), message.getText()));
             replyMessage = handleInputMessage(message);
         }
-
         return replyMessage;
     }
 
@@ -42,17 +42,28 @@ public class TelegramFacade {
         BotState botState;
         SendMessage replyMessage;
 
+        switch (userDataCache.getUsersCurrentBotState(userId)) {
+            case BINANCE -> {
+                BinanceStateHandler binanceStateHandler = new BinanceStateHandler();
+                //binanceStateHandler.handle(message);
+            }
+            case MUSIC -> {
+                MusicStateHandler musicStateHandler = new MusicStateHandler();
+            }
+            default -> {}
+        }
+
         switch (inputMsg) {
-            case "music" -> {
+            case "Музика" -> {
                 botState = BotState.MUSIC;
             }
-            case "binance" -> {
+            case "Binance" -> {
                 botState = BotState.BINANCE;
             }
-            case "notification" -> {
+            case "Нагадування" -> {
                 botState = BotState.NOTIFICATION;
             }
-            case "weather" -> {
+            case "Погода" -> {
                 botState = BotState.WEATHER;
             }
             default -> {

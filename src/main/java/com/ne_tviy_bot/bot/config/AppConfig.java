@@ -45,7 +45,6 @@ public class AppConfig {
         NeTviyBot neTviyBot = new NeTviyBot(options, telegramFacade);
         neTviyBot.setBotUsername(botConfig.getName());
         neTviyBot.setBotToken(botConfig.getToken());
-        System.out.println(botConfig.getName());
 
         return neTviyBot;
     }
