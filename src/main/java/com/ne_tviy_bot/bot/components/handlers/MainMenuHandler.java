@@ -1,9 +1,8 @@
-package com.ne_tviy_bot.bot.components.handlers.menu;
+package com.ne_tviy_bot.bot.components.handlers;
 
 import com.ne_tviy_bot.bot.BotState;
-import com.ne_tviy_bot.bot.components.handlers.InputMessageHandler;
-import com.ne_tviy_bot.core.service.MainMenuService;
-import com.ne_tviy_bot.core.service.ReplyMessagesService;
+import com.ne_tviy_bot.bot.service.MainMenuService;
+import com.ne_tviy_bot.bot.service.ReplyMessagesService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;

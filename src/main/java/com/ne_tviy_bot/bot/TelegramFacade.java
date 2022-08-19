@@ -1,6 +1,8 @@
 package com.ne_tviy_bot.bot;
 
 import com.ne_tviy_bot.bot.components.BotStateContext;
+import com.ne_tviy_bot.bot.state_handlers.BinanceStateHandler;
+import com.ne_tviy_bot.bot.state_handlers.MusicStateHandler;
 import com.ne_tviy_bot.cache.UserDataCache;
 import com.ne_tviy_bot.core.ApplicationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,17 @@ public class TelegramFacade {
         BotState botState;
         SendMessage replyMessage;
 
+        switch (userDataCache.getUsersCurrentBotState(userId)) {
+            case BINANCE -> {
+                BinanceStateHandler binanceStateHandler = new BinanceStateHandler();
+                //binanceStateHandler.handle(message);
+            }
+            case MUSIC -> {
+                MusicStateHandler musicStateHandler = new MusicStateHandler();
+            }
+            default -> {}
+        }
+
         switch (inputMsg) {
             case "Музика" -> {
                 botState = BotState.MUSIC;
@@ -52,9 +65,6 @@ public class TelegramFacade {
             }
             case "Погода" -> {
                 botState = BotState.WEATHER;
-            }
-            case "Ціна пари" -> {
-                botState = BotState.COIN_PAIR;
             }
             default -> {
                 botState = userDataCache.getUsersCurrentBotState(userId);

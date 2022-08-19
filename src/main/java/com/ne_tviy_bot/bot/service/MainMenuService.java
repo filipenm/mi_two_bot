@@ -1,4 +1,4 @@
-package com.ne_tviy_bot.core.service;
+package com.ne_tviy_bot.bot.service;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BinanceMenuService {
-    public SendMessage getBinanceMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getBinanceMenuKeyboard();
+public class MainMenuService {
+    public SendMessage getMainMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
         final SendMessage mainMenuMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
         return mainMenuMessage;
     }
 
-    private ReplyKeyboardMarkup getBinanceMenuKeyboard() {
+    private ReplyKeyboardMarkup getMainMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
@@ -29,8 +29,10 @@ public class BinanceMenuService {
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        row1.add(new KeyboardButton("Ціна пари"));
-        row2.add(new KeyboardButton("Назад"));
+        row1.add(new KeyboardButton("Музика"));
+        row1.add(new KeyboardButton("Binance"));
+        row2.add(new KeyboardButton("Нагадування"));
+        row2.add(new KeyboardButton("Погода"));
         keyboard.add(row1);
         keyboard.add(row2);
 

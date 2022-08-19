@@ -1,4 +1,4 @@
-package com.ne_tviy_bot.core.service;
+package com.ne_tviy_bot.bot.service;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CoinPairMenuService {
-    public SendMessage getCoinPairMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getCoinPairMenuKeyboard();
+public class BinanceMenuService {
+    public SendMessage getBinanceMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getBinanceMenuKeyboard();
         final SendMessage mainMenuMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
         return mainMenuMessage;
     }
 
-    private ReplyKeyboardMarkup getCoinPairMenuKeyboard() {
+    private ReplyKeyboardMarkup getBinanceMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
@@ -29,8 +29,8 @@ public class CoinPairMenuService {
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        row1.add(new KeyboardButton("BTC/USDT"));
-        row2.add(new KeyboardButton("ETH/USDT"));
+        row1.add(new KeyboardButton("Ціна пари"));
+        row2.add(new KeyboardButton("Назад"));
         keyboard.add(row1);
         keyboard.add(row2);
 
