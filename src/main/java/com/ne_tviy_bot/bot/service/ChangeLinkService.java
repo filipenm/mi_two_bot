@@ -1,8 +1,5 @@
 package com.ne_tviy_bot.bot.service;
 
-import com.ne_tviy_bot.core.ApplicationManager;
-import com.ne_tviy_bot.core.utils.JsonUtils;
-import com.ne_tviy_bot.core.utils.RequestUtils;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -12,22 +9,17 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ne_tviy_bot.core.constants.UrlConstants.BINANCE_API_URI;
-
 @Service
-public class CoinPriceService {
-
-    private static final ApplicationManager app = ApplicationManager.get();
-
-    public SendMessage getCoinPriceMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getCoinPriceMenuKeyboard();
-        final SendMessage coinPriceMessage =
+public class ChangeLinkService {
+    public SendMessage getChangeLinkMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getChangeLinkMenuKeyboard();
+        final SendMessage musicMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
-        return coinPriceMessage;
+        return musicMessage;
     }
 
-    private ReplyKeyboardMarkup getCoinPriceMenuKeyboard() {
+    private ReplyKeyboardMarkup getChangeLinkMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);

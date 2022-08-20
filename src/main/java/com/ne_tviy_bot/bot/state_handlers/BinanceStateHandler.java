@@ -6,18 +6,15 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 public class BinanceStateHandler {
 
-    public BotState handle(Message message, UserDataCache cache) {
+    public BotState handle(Message message) {
         String inputMsg = message.getText();
-        int userId = message.getFrom().getId();
         BotState botState;
 
         switch (inputMsg) {
             case "Ціна пари" -> botState = BotState.COIN_PAIR;
             case "Назад" -> botState = BotState.MAIN_MENU;
-            default -> botState = cache.getUsersCurrentBotState(userId);
+            default -> botState = BotState.BINANCE;
         }
-
-        cache.setUsersCurrentBotState(userId, botState);
 
         return botState;
     }

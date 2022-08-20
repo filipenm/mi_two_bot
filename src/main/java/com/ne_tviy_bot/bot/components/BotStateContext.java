@@ -36,6 +36,9 @@ public class BotStateContext {
         if (isCoinPairState(currentState)) {
             return messageHandlers.get(BotState.COIN_PAIR);
         }
+        if (isChangeLinkState(currentState)) {
+            return messageHandlers.get(BotState.CHANGE_LINK);
+        }
         return messageHandlers.get(currentState);
     }
 
@@ -54,5 +57,9 @@ public class BotStateContext {
 
     private boolean isCoinPairState(BotState currentState) {
         return currentState == BotState.COIN_PAIR;
+    }
+
+    private boolean isChangeLinkState(BotState currentState) {
+        return currentState == BotState.CHANGE_LINK;
     }
 }
