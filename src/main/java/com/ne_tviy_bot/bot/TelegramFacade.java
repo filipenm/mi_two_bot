@@ -1,7 +1,11 @@
 package com.ne_tviy_bot.bot;
 
 import com.ne_tviy_bot.bot.components.BotStateContext;
+import com.ne_tviy_bot.bot.functionality.BinanceFunc;
+import com.ne_tviy_bot.bot.functionality.MusicFunc;
 import com.ne_tviy_bot.bot.state_handlers.BinanceStateHandler;
+import com.ne_tviy_bot.bot.state_handlers.ChangeLinkHandler;
+import com.ne_tviy_bot.bot.state_handlers.CoinPriceHandler;
 import com.ne_tviy_bot.bot.state_handlers.MusicStateHandler;
 import com.ne_tviy_bot.cache.UserDataCache;
 import com.ne_tviy_bot.core.ApplicationManager;
@@ -18,10 +22,17 @@ public class TelegramFacade {
     private static final ApplicationManager app = ApplicationManager.get();
     private final UserDataCache userDataCache;
     private final BotStateContext botStateContext;
+    private final BinanceFunc binanceFunc;
+    private final MusicFunc musicFunc;
 
-    public TelegramFacade(UserDataCache userDataCache, BotStateContext botStateContext) {
+    public TelegramFacade(UserDataCache userDataCache,
+                          BotStateContext botStateContext,
+                          BinanceFunc binanceFunc,
+                          MusicFunc musicFunc) {
         this.userDataCache = userDataCache;
         this.botStateContext = botStateContext;
+        this.binanceFunc = binanceFunc;
+        this.musicFunc = musicFunc;
     }
 
     public SendMessage handleUpdate(Update update) {
@@ -36,23 +47,49 @@ public class TelegramFacade {
         return replyMessage;
     }
 
+    private SendMessage sendResponse(BotState botState, Message message) {
+        userDataCache.setUsersCurrentBotState(message.getFrom().getId(), botState);
+        switch (botState) {
+            case COIN_PAIR -> {
+                return binanceFunc.getPrice(message);
+            }
+            case CHANGE_LINK -> {
+                return musicFunc.getLink(message);
+            }
+            default -> {
+                return musicFunc.getLink(message);
+            }
+        }
+    }
+
     private SendMessage handleInputMessage(Message message) {
         String inputMsg = message.getText();
         int userId = message.getFrom().getId();
-        BotState botState;
+        BotState botState = userDataCache.getUsersCurrentBotState(userId);
         SendMessage replyMessage;
 
-        switch (userDataCache.getUsersCurrentBotState(userId)) {
+        switch (botState) {
             case BINANCE -> {
                 BinanceStateHandler binanceStateHandler = new BinanceStateHandler();
-                binanceStateHandler.handle(message, userDataCache);
+                botState = binanceStateHandler.handle(message);
             }
             case MUSIC -> {
                 MusicStateHandler musicStateHandler = new MusicStateHandler();
-                musicStateHandler.handle(message, userDataCache);
+                botState = musicStateHandler.handle(message);
             }
-            default -> {
-
+            case COIN_PAIR -> {
+                CoinPriceHandler coinPriceHandler = new CoinPriceHandler();
+                botState = coinPriceHandler.handle(message);
+                if (botState == BotState.COIN_PAIR) {
+                    return sendResponse(botState, message);
+                }
+            }
+            case CHANGE_LINK -> {
+                ChangeLinkHandler changeLinkHandler = new ChangeLinkHandler();
+                botState = changeLinkHandler.handle(message);
+                if (botState == BotState.CHANGE_LINK) {
+                    return sendResponse(botState, message);
+                }
             }
         }
 
@@ -61,11 +98,8 @@ public class TelegramFacade {
             case "Binance" -> botState = BotState.BINANCE;
             case "Нагадування" -> botState = BotState.NOTIFICATION;
             case "Погода" -> botState = BotState.WEATHER;
-            default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
-
         userDataCache.setUsersCurrentBotState(userId, botState);
-
         replyMessage = botStateContext.processInputMessage(botState, message);
 
         return replyMessage;
