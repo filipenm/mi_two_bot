@@ -7,5 +7,6 @@ public enum BotState {
     WEATHER,
     NOTIFICATION,
     MAIN_MENU,
-    CHANGE_LINK;
+    CHANGE_LINK,
+    HELP
 }

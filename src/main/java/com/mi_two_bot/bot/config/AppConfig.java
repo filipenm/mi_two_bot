@@ -37,7 +37,7 @@ public class AppConfig {
     }
 
     @Bean
-    public MiTwoBot NeTviyBot(TelegramFacade telegramFacade) {
+    public MiTwoBot MiTwoBot(TelegramFacade telegramFacade) {
         DefaultBotOptions options = ApiContext
                 .getInstance(DefaultBotOptions.class);
 

@@ -1,8 +1,8 @@
-package com.mi_two_bot.bot.components.handlers;
+package com.mi_two_bot.bot.components.input_messages;
 
 import com.mi_two_bot.bot.BotState;
-import com.mi_two_bot.bot.service.ChangeLinkService;
-import com.mi_two_bot.bot.service.ReplyMessagesService;
+import com.mi_two_bot.bot.services.ChangeLinkService;
+import com.mi_two_bot.bot.services.ReplyMessagesService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -10,12 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import static com.mi_two_bot.core.constants.MessageConstants.CHANGE_LINK_MENU;
 
 @Component
-public class ChangeLinkMenuHandler implements InputMessageHandler{
+public class ChangeLinkMenuInputMessage implements InputMessageHandler {
     private final ReplyMessagesService messagesService;
     private final ChangeLinkService changeLinkService;
 
 
-    public ChangeLinkMenuHandler(ReplyMessagesService messagesService, ChangeLinkService changeLinkService) {
+    public ChangeLinkMenuInputMessage(ReplyMessagesService messagesService, ChangeLinkService changeLinkService) {
         this.messagesService = messagesService;
         this.changeLinkService = changeLinkService;
     }

@@ -1,4 +1,4 @@
-package com.mi_two_bot.bot.service;
+package com.mi_two_bot.bot.services;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BinanceMenuService {
-    public SendMessage getBinanceMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getBinanceMenuKeyboard();
-        final SendMessage mainMenuMessage =
+public class ChangeLinkService {
+    public SendMessage getChangeLinkMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getChangeLinkMenuKeyboard();
+        final SendMessage musicMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
-        return mainMenuMessage;
+        return musicMessage;
     }
 
-    private ReplyKeyboardMarkup getBinanceMenuKeyboard() {
+    private ReplyKeyboardMarkup getChangeLinkMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
@@ -29,7 +29,9 @@ public class BinanceMenuService {
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        row1.add(new KeyboardButton("Ціна пари"));
+        row1.add("Spotify");
+        row1.add("YouTube Music");
+        row2.add("Apple music");
         row2.add(new KeyboardButton("Назад"));
         keyboard.add(row1);
         keyboard.add(row2);

@@ -1,7 +1,7 @@
 package com.mi_two_bot.bot.components;
 
 import com.mi_two_bot.bot.BotState;
-import com.mi_two_bot.bot.components.handlers.InputMessageHandler;
+import com.mi_two_bot.bot.components.input_messages.InputMessageHandler;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -39,6 +39,9 @@ public class BotStateContext {
         if (isChangeLinkState(currentState)) {
             return messageHandlers.get(BotState.CHANGE_LINK);
         }
+        if (isHelpState(currentState)) {
+            return messageHandlers.get(BotState.HELP);
+        }
         return messageHandlers.get(currentState);
     }
 
@@ -61,5 +64,9 @@ public class BotStateContext {
 
     private boolean isChangeLinkState(BotState currentState) {
         return currentState == BotState.CHANGE_LINK;
+    }
+
+    private boolean isHelpState(BotState currentState) {
+        return currentState == BotState.HELP;
     }
 }

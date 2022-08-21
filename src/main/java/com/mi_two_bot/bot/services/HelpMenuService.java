@@ -1,4 +1,4 @@
-package com.mi_two_bot.bot.service;
+package com.mi_two_bot.bot.services;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ChangeLinkService {
-    public SendMessage getChangeLinkMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getChangeLinkMenuKeyboard();
-        final SendMessage musicMessage =
+public class HelpMenuService {
+    public SendMessage getHelpMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getHelpMenuKeyboard();
+        final SendMessage helpMenuMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
-        return musicMessage;
+        return helpMenuMessage;
     }
 
-    private ReplyKeyboardMarkup getChangeLinkMenuKeyboard() {
+    private ReplyKeyboardMarkup getHelpMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
@@ -27,14 +27,9 @@ public class ChangeLinkService {
 
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        KeyboardRow row1 = new KeyboardRow();
-        KeyboardRow row2 = new KeyboardRow();
-        row1.add("Spotify");
-        row1.add("YouTube Music");
-        row2.add("Apple music");
-        row2.add(new KeyboardButton("Назад"));
-        keyboard.add(row1);
-        keyboard.add(row2);
+        KeyboardRow row = new KeyboardRow();
+        row.add(new KeyboardButton("Зрозуміло"));
+        keyboard.add(row);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

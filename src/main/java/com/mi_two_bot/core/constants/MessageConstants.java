@@ -5,6 +5,7 @@ public interface MessageConstants {
     String LIST_OF_COMMANDS = "Список можливих команд";
     String CHOOSE_COMMAND_BINANCE_MENU = "Обери потрібну команду зі списку нижче";
     String COIN_PAIR_MENU = "Введи пару через пробіл або обери з запропонованих нижче";
-    String CHANGE_LINK_MENU = "Кинь лінк та обери платформу, на яку потрібно змінити";
-    String SEND_LINK = "Кинь лінк";
+    String CHANGE_LINK_MENU = "Обери платформу, на яку потрібно буде змінити лінк";
+    String SEND_LINK = "Тепер надішли лінк";
+    String HELP = "Список команд";
 }

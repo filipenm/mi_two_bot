@@ -4,7 +4,8 @@ import com.mi_two_bot.bot.BotState;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 
-public class MusicStateHandler {
+public class MusicStateHandler implements StateHandler {
+    @Override
     public BotState handle(Message message) {
         String inputMsg = message.getText();
         BotState botState;

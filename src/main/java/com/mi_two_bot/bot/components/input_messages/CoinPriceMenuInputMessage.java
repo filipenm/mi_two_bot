@@ -1,8 +1,8 @@
-package com.mi_two_bot.bot.components.handlers;
+package com.mi_two_bot.bot.components.input_messages;
 
 import com.mi_two_bot.bot.BotState;
-import com.mi_two_bot.bot.service.CoinPriceService;
-import com.mi_two_bot.bot.service.ReplyMessagesService;
+import com.mi_two_bot.bot.services.CoinPriceService;
+import com.mi_two_bot.bot.services.ReplyMessagesService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -10,12 +10,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import static com.mi_two_bot.core.constants.MessageConstants.COIN_PAIR_MENU;
 
 @Component
-public class CoinPriceMenuHandler implements InputMessageHandler {
+public class CoinPriceMenuInputMessage implements InputMessageHandler {
     private final ReplyMessagesService messagesService;
     private final CoinPriceService coinPriceService;
 
 
-    public CoinPriceMenuHandler(ReplyMessagesService messagesService, CoinPriceService coinPriceService) {
+    public CoinPriceMenuInputMessage(ReplyMessagesService messagesService, CoinPriceService coinPriceService) {
         this.messagesService = messagesService;
         this.coinPriceService = coinPriceService;
     }

@@ -3,10 +3,7 @@ package com.mi_two_bot.bot;
 import com.mi_two_bot.bot.components.BotStateContext;
 import com.mi_two_bot.bot.functionality.BinanceFunc;
 import com.mi_two_bot.bot.functionality.MusicFunc;
-import com.mi_two_bot.bot.state_handlers.BinanceStateHandler;
-import com.mi_two_bot.bot.state_handlers.ChangeLinkHandler;
-import com.mi_two_bot.bot.state_handlers.CoinPriceHandler;
-import com.mi_two_bot.bot.state_handlers.MusicStateHandler;
+import com.mi_two_bot.bot.state_handlers.*;
 import com.mi_two_bot.cache.UserDataCache;
 import com.mi_two_bot.core.ApplicationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -67,37 +64,39 @@ public class TelegramFacade {
         int userId = message.getFrom().getId();
         BotState botState = userDataCache.getUsersCurrentBotState(userId);
         SendMessage replyMessage;
+        StateHandler stateHandler;
 
         switch (botState) {
             case BINANCE -> {
-                BinanceStateHandler binanceStateHandler = new BinanceStateHandler();
-                botState = binanceStateHandler.handle(message);
+                stateHandler = new BinanceStateHandler();
+                botState = stateHandler.handle(message);
             }
             case MUSIC -> {
-                MusicStateHandler musicStateHandler = new MusicStateHandler();
-                botState = musicStateHandler.handle(message);
+                stateHandler = new MusicStateHandler();
+                botState = stateHandler.handle(message);
             }
             case COIN_PAIR -> {
-                CoinPriceHandler coinPriceHandler = new CoinPriceHandler();
-                botState = coinPriceHandler.handle(message);
+                stateHandler = new CoinPriceHandler();
+                botState = stateHandler.handle(message);
                 if (botState == BotState.COIN_PAIR) {
                     return sendResponse(botState, message);
                 }
             }
             case CHANGE_LINK -> {
-                ChangeLinkHandler changeLinkHandler = new ChangeLinkHandler();
-                botState = changeLinkHandler.handle(message);
+                stateHandler = new ChangeLinkHandler();
+                botState = stateHandler.handle(message);
                 if (botState == BotState.CHANGE_LINK) {
                     return sendResponse(botState, message);
                 }
             }
         }
 
-        switch (inputMsg) {
-            case "Музика" -> botState = BotState.MUSIC;
-            case "Binance" -> botState = BotState.BINANCE;
-            case "Нагадування" -> botState = BotState.NOTIFICATION;
-            case "Погода" -> botState = BotState.WEATHER;
+        switch (inputMsg.toLowerCase()) {
+            case "музика" -> botState = BotState.MUSIC;
+            case "binance" -> botState = BotState.BINANCE;
+            case "нагадування" -> botState = BotState.NOTIFICATION;
+            case "погода" -> botState = BotState.WEATHER;
+            case "help" -> botState = BotState.HELP;
         }
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);
