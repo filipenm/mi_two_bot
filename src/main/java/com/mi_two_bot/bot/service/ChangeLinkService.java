@@ -27,9 +27,14 @@ public class ChangeLinkService {
 
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        KeyboardRow row = new KeyboardRow();
-        row.add(new KeyboardButton("Назад"));
-        keyboard.add(row);
+        KeyboardRow row1 = new KeyboardRow();
+        KeyboardRow row2 = new KeyboardRow();
+        row1.add("Spotify");
+        row1.add("YouTube Music");
+        row2.add("Apple music");
+        row2.add(new KeyboardButton("Назад"));
+        keyboard.add(row1);
+        keyboard.add(row2);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
