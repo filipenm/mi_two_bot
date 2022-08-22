@@ -1,32 +1,32 @@
-package com.mi_two_bot.bot.components.input_messages;
+package com.mi_two_bot.bot.components.handlers;
 
 import com.mi_two_bot.bot.BotState;
 import com.mi_two_bot.bot.components.InputMessageHandler;
-import com.mi_two_bot.bot.services.MusicMenuService;
+import com.mi_two_bot.bot.functionality.music.AppleMusicFunc;
 import com.mi_two_bot.bot.services.ReplyMessagesService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import static com.mi_two_bot.core.constants.MessageConstants.SEND_LINK;
-
 @Component
-public class MusicMenuInputMessage implements InputMessageHandler {
+public class AppleMusicLinkHandler implements InputMessageHandler {
     private final ReplyMessagesService messagesService;
-    private final MusicMenuService musicMenuService;
+    private final AppleMusicFunc appleMusicFunc;
 
-    public MusicMenuInputMessage(ReplyMessagesService messagesService, MusicMenuService musicMenuService) {
+
+    public AppleMusicLinkHandler(ReplyMessagesService messagesService, AppleMusicFunc appleMusicFunc) {
         this.messagesService = messagesService;
-        this.musicMenuService = musicMenuService;
+        this.appleMusicFunc = appleMusicFunc;
     }
 
     @Override
     public SendMessage handle(Message message) {
-        return musicMenuService.getMusicMenuMessage(message.getChatId(), SEND_LINK);
+        String url = message.toString();
+        return new SendMessage(message.getChatId(), appleMusicFunc.handle(url));
     }
 
     @Override
     public BotState getHandlerName() {
-        return BotState.MUSIC;
+        return BotState.PAIR_PRICE_CALC;
     }
 }

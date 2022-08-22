@@ -1,7 +1,6 @@
 package com.mi_two_bot.bot.components;
 
 import com.mi_two_bot.bot.BotState;
-import com.mi_two_bot.bot.components.input_messages.InputMessageHandler;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -34,7 +33,7 @@ public class BotStateContext {
             return messageHandlers.get(BotState.BINANCE);
         }
         if (isCoinPairState(currentState)) {
-            return messageHandlers.get(BotState.COIN_PAIR);
+            return messageHandlers.get(BotState.PAIR_PRICE);
         }
         if (isChangeLinkState(currentState)) {
             return messageHandlers.get(BotState.CHANGE_LINK);
@@ -44,6 +43,9 @@ public class BotStateContext {
         }
         if (isSpotifyState(currentState)) {
             return messageHandlers.get(BotState.SPOTIFY);
+        }
+        if (isPairPriceCalc(currentState)) {
+            return messageHandlers.get(BotState.PAIR_PRICE_CALC);
         }
         return messageHandlers.get(currentState);
     }
@@ -62,7 +64,7 @@ public class BotStateContext {
     }
 
     private boolean isCoinPairState(BotState currentState) {
-        return currentState == BotState.COIN_PAIR;
+        return currentState == BotState.PAIR_PRICE;
     }
 
     private boolean isChangeLinkState(BotState currentState) {
@@ -75,5 +77,9 @@ public class BotStateContext {
 
     private boolean isSpotifyState(BotState currentState) {
         return currentState == BotState.SPOTIFY;
+    }
+
+    private boolean isPairPriceCalc(BotState currentState) {
+        return currentState == BotState.PAIR_PRICE_CALC;
     }
 }

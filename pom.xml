@@ -49,6 +49,13 @@
             <version>4.4.0.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-youtube -->
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-youtube</artifactId>
+            <version>v3-rev20220719-2.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

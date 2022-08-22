@@ -1,8 +1,6 @@
 package com.mi_two_bot.bot;
 
 import com.mi_two_bot.bot.components.BotStateContext;
-import com.mi_two_bot.bot.responses.UserResponse;
-import com.mi_two_bot.bot.state_handlers.*;
 import com.mi_two_bot.cache.UserDataCache;
 import com.mi_two_bot.core.ApplicationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -20,67 +18,23 @@ public class TelegramFacade {
 
     private final UserDataCache userDataCache;
     private final BotStateContext botStateContext;
-    private final UserResponse userResponse;
 
     public TelegramFacade(UserDataCache userDataCache,
-                          BotStateContext botStateContext,
-                          UserResponse userResponse) {
+                          BotStateContext botStateContext) {
         this.userDataCache = userDataCache;
         this.botStateContext = botStateContext;
-        this.userResponse = userResponse;
     }
+
 
     public SendMessage handleUpdate(Update update) {
         SendMessage replyMessage = null;
         Message message = update.getMessage();
-        int userId = message.getFrom().getId();
 
-        if (userDataCache.getUsersCurrentBotState(userId) == BotState.MAIN_MENU) {
-            message = update.getMessage();
-            if (message != null && message.hasText()) {
-                app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
-                        message.getFrom().getUserName(), message.getChatId(), message.getText()));
-                replyMessage = handleInputMessage(message);
-            }
-        }
-        else {
-            BotState botState = userDataCache.getUsersCurrentBotState(userId);
-            StateHandler stateHandler;
-            switch (botState) {
-                case BINANCE -> {
-                    stateHandler = new BinanceStateHandler();
-                    botState = stateHandler.handle(message);
-                }
-                case MUSIC -> {
-                    stateHandler = new MusicStateHandler();
-                    botState = stateHandler.handle(message);
-                }
-                case COIN_PAIR -> {
-                    stateHandler = new CoinPriceHandler();
-                    botState = stateHandler.handle(message);
-                    if (botState == BotState.COIN_PAIR) {
-                        return userResponse.sendResponse(botState, message);
-                    }
-                }
-                case CHANGE_LINK -> {
-                    stateHandler = new ChangeLinkHandler();
-                    botState = stateHandler.handle(message);
-                    if (botState == BotState.CHANGE_LINK) {
-                        return userResponse.sendResponse(botState, message);
-                    }
-                }
-                case SPOTIFY -> {
-                    stateHandler = new SpotifyStateHandler();
-                    botState = stateHandler.handle(message);
-                    if(botState == BotState.SPOTIFY) {
-                        return userResponse.sendResponse(botState, message);
-                    }
-                }
-                default -> botState = BotState.MAIN_MENU;
-
-            }
-            userDataCache.setUsersCurrentBotState(userId, botState);
-            replyMessage = botStateContext.processInputMessage(botState, message);
+        message = update.getMessage();
+        if (message != null && message.hasText()) {
+            app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
+                    message.getFrom().getUserName(), message.getChatId(), message.getText()));
+            replyMessage = handleInputMessage(message);
         }
         return replyMessage;
     }
@@ -94,13 +48,22 @@ public class TelegramFacade {
         switch (inputMsg.toLowerCase()) {
             case "музика" -> botState = BotState.MUSIC;
             case "binance" -> botState = BotState.BINANCE;
-            case "нагадування" -> botState = BotState.NOTIFICATION;
-            case "погода" -> botState = BotState.WEATHER;
+            case "змінити лінк" -> botState = BotState.CHANGE_LINK;
             case "help" -> botState = BotState.HELP;
-            default -> botState = BotState.MAIN_MENU;
+            case "ціна пари" -> botState = BotState.PAIR_PRICE;
+            case "spotify" -> botState = BotState.SPOTIFY;
+            case "apple music" -> botState = BotState.APPLE_MUSIC;
+            case "youtube music" -> botState = BotState.YOUTUBE_MUSIC;
+            case "назад" -> botState = BotState.MAIN_MENU;
+            default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);
+
+        if (botState == BotState.PAIR_PRICE) {
+            botState = BotState.PAIR_PRICE_CALC;
+            userDataCache.setUsersCurrentBotState(userId, botState);
+        }
 
         return replyMessage;
     }
