@@ -42,6 +42,9 @@ public class BotStateContext {
         if (isHelpState(currentState)) {
             return messageHandlers.get(BotState.HELP);
         }
+        if (isSpotifyState(currentState)) {
+            return messageHandlers.get(BotState.SPOTIFY);
+        }
         return messageHandlers.get(currentState);
     }
 
@@ -68,5 +71,9 @@ public class BotStateContext {
 
     private boolean isHelpState(BotState currentState) {
         return currentState == BotState.HELP;
+    }
+
+    private boolean isSpotifyState(BotState currentState) {
+        return currentState == BotState.SPOTIFY;
     }
 }

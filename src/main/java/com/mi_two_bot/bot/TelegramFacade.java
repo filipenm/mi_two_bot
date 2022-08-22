@@ -1,8 +1,7 @@
 package com.mi_two_bot.bot;
 
 import com.mi_two_bot.bot.components.BotStateContext;
-import com.mi_two_bot.bot.functionality.BinanceFunc;
-import com.mi_two_bot.bot.functionality.MusicFunc;
+import com.mi_two_bot.bot.responses.UserResponse;
 import com.mi_two_bot.bot.state_handlers.*;
 import com.mi_two_bot.cache.UserDataCache;
 import com.mi_two_bot.core.ApplicationManager;
@@ -16,80 +15,81 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Service
 public class TelegramFacade {
+
     private static final ApplicationManager app = ApplicationManager.get();
+
     private final UserDataCache userDataCache;
     private final BotStateContext botStateContext;
-    private final BinanceFunc binanceFunc;
-    private final MusicFunc musicFunc;
+    private final UserResponse userResponse;
 
     public TelegramFacade(UserDataCache userDataCache,
                           BotStateContext botStateContext,
-                          BinanceFunc binanceFunc,
-                          MusicFunc musicFunc) {
+                          UserResponse userResponse) {
         this.userDataCache = userDataCache;
         this.botStateContext = botStateContext;
-        this.binanceFunc = binanceFunc;
-        this.musicFunc = musicFunc;
+        this.userResponse = userResponse;
     }
 
     public SendMessage handleUpdate(Update update) {
         SendMessage replyMessage = null;
-
         Message message = update.getMessage();
-        if (message != null && message.hasText()) {
-            app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
-                    message.getFrom().getUserName(), message.getChatId(), message.getText()));
-            replyMessage = handleInputMessage(message);
+        int userId = message.getFrom().getId();
+
+        if (userDataCache.getUsersCurrentBotState(userId) == BotState.MAIN_MENU) {
+            message = update.getMessage();
+            if (message != null && message.hasText()) {
+                app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
+                        message.getFrom().getUserName(), message.getChatId(), message.getText()));
+                replyMessage = handleInputMessage(message);
+            }
+        }
+        else {
+            BotState botState = userDataCache.getUsersCurrentBotState(userId);
+            StateHandler stateHandler;
+            switch (botState) {
+                case BINANCE -> {
+                    stateHandler = new BinanceStateHandler();
+                    botState = stateHandler.handle(message);
+                }
+                case MUSIC -> {
+                    stateHandler = new MusicStateHandler();
+                    botState = stateHandler.handle(message);
+                }
+                case COIN_PAIR -> {
+                    stateHandler = new CoinPriceHandler();
+                    botState = stateHandler.handle(message);
+                    if (botState == BotState.COIN_PAIR) {
+                        return userResponse.sendResponse(botState, message);
+                    }
+                }
+                case CHANGE_LINK -> {
+                    stateHandler = new ChangeLinkHandler();
+                    botState = stateHandler.handle(message);
+                    if (botState == BotState.CHANGE_LINK) {
+                        return userResponse.sendResponse(botState, message);
+                    }
+                }
+                case SPOTIFY -> {
+                    stateHandler = new SpotifyStateHandler();
+                    botState = stateHandler.handle(message);
+                    if(botState == BotState.SPOTIFY) {
+                        return userResponse.sendResponse(botState, message);
+                    }
+                }
+                default -> botState = BotState.MAIN_MENU;
+
+            }
+            userDataCache.setUsersCurrentBotState(userId, botState);
+            replyMessage = botStateContext.processInputMessage(botState, message);
         }
         return replyMessage;
-    }
-
-    private SendMessage sendResponse(BotState botState, Message message) {
-        userDataCache.setUsersCurrentBotState(message.getFrom().getId(), botState);
-        switch (botState) {
-            case COIN_PAIR -> {
-                return binanceFunc.getPrice(message);
-            }
-            case CHANGE_LINK -> {
-                return musicFunc.getLink(message);
-            }
-            default -> {
-                return musicFunc.getLink(message);
-            }
-        }
     }
 
     private SendMessage handleInputMessage(Message message) {
         String inputMsg = message.getText();
         int userId = message.getFrom().getId();
-        BotState botState = userDataCache.getUsersCurrentBotState(userId);
+        BotState botState;
         SendMessage replyMessage;
-        StateHandler stateHandler;
-
-        switch (botState) {
-            case BINANCE -> {
-                stateHandler = new BinanceStateHandler();
-                botState = stateHandler.handle(message);
-            }
-            case MUSIC -> {
-                stateHandler = new MusicStateHandler();
-                botState = stateHandler.handle(message);
-            }
-            case COIN_PAIR -> {
-                stateHandler = new CoinPriceHandler();
-                botState = stateHandler.handle(message);
-                if (botState == BotState.COIN_PAIR) {
-                    return sendResponse(botState, message);
-                }
-            }
-            case CHANGE_LINK -> {
-                stateHandler = new ChangeLinkHandler();
-                botState = stateHandler.handle(message);
-                if (botState == BotState.CHANGE_LINK) {
-                    return sendResponse(botState, message);
-                }
-            }
-        }
 
         switch (inputMsg.toLowerCase()) {
             case "музика" -> botState = BotState.MUSIC;
@@ -97,6 +97,7 @@ public class TelegramFacade {
             case "нагадування" -> botState = BotState.NOTIFICATION;
             case "погода" -> botState = BotState.WEATHER;
             case "help" -> botState = BotState.HELP;
+            default -> botState = BotState.MAIN_MENU;
         }
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CoinPriceService {
+public class CoinPriceMenuService {
 
     public SendMessage getCoinPriceMenuMessage(final long chatId, final String textMessage) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = getCoinPriceMenuKeyboard();

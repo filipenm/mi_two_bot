@@ -8,5 +8,8 @@ public enum BotState {
     NOTIFICATION,
     MAIN_MENU,
     CHANGE_LINK,
-    HELP
+    HELP,
+    SPOTIFY,
+    APPLE_MUSIC,
+    YOUTUBE_MUSIC
 }

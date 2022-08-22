@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ChangeLinkService {
+public class ChangeLinkMenuService {
     public SendMessage getChangeLinkMenuMessage(final long chatId, final String textMessage) {
         final ReplyKeyboardMarkup replyKeyboardMarkup = getChangeLinkMenuKeyboard();
         final SendMessage musicMessage =
