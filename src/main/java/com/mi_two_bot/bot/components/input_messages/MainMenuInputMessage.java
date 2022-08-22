@@ -1,8 +1,8 @@
-package com.mi_two_bot.bot.components.handlers;
+package com.mi_two_bot.bot.components.input_messages;
 
 import com.mi_two_bot.bot.BotState;
-import com.mi_two_bot.bot.service.MainMenuService;
-import com.mi_two_bot.bot.service.ReplyMessagesService;
+import com.mi_two_bot.bot.services.MainMenuService;
+import com.mi_two_bot.bot.services.ReplyMessagesService;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -11,11 +11,11 @@ import static com.mi_two_bot.core.constants.MessageConstants.LIST_OF_COMMANDS;
 
 
 @Component
-public class MainMenuHandler implements InputMessageHandler {
+public class MainMenuInputMessage implements InputMessageHandler {
     private final ReplyMessagesService messagesService;
     private final MainMenuService mainMenuService;
 
-    public MainMenuHandler(ReplyMessagesService messagesService, MainMenuService mainMenuService) {
+    public MainMenuInputMessage(ReplyMessagesService messagesService, MainMenuService mainMenuService) {
         this.messagesService = messagesService;
         this.mainMenuService = mainMenuService;
     }

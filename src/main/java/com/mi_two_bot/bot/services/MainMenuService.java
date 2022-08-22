@@ -1,6 +1,5 @@
-package com.mi_two_bot.bot.service;
+package com.mi_two_bot.bot.services;
 
-import com.mi_two_bot.core.ApplicationManager;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -11,19 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CoinPriceService {
-
-    private static final ApplicationManager app = ApplicationManager.get();
-
-    public SendMessage getCoinPriceMenuMessage(final long chatId, final String textMessage) {
-        final ReplyKeyboardMarkup replyKeyboardMarkup = getCoinPriceMenuKeyboard();
-        final SendMessage coinPriceMessage =
+public class MainMenuService {
+    public SendMessage getMainMenuMessage(final long chatId, final String textMessage) {
+        final ReplyKeyboardMarkup replyKeyboardMarkup = getMainMenuKeyboard();
+        final SendMessage mainMenuMessage =
                 createMessageWithKeyboard(chatId, textMessage, replyKeyboardMarkup);
 
-        return coinPriceMessage;
+        return mainMenuMessage;
     }
 
-    private ReplyKeyboardMarkup getCoinPriceMenuKeyboard() {
+    private ReplyKeyboardMarkup getMainMenuKeyboard() {
 
         final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
@@ -31,9 +27,14 @@ public class CoinPriceService {
 
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        KeyboardRow row = new KeyboardRow();
-        row.add(new KeyboardButton("Назад"));
-        keyboard.add(row);
+        KeyboardRow row1 = new KeyboardRow();
+        KeyboardRow row2 = new KeyboardRow();
+        row1.add(new KeyboardButton("Музика"));
+        row1.add(new KeyboardButton("Binance"));
+        row2.add(new KeyboardButton("Нагадування"));
+        row2.add(new KeyboardButton("Погода"));
+        keyboard.add(row1);
+        keyboard.add(row2);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;

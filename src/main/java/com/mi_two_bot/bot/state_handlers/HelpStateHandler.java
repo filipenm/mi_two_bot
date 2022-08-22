@@ -3,17 +3,16 @@ package com.mi_two_bot.bot.state_handlers;
 import com.mi_two_bot.bot.BotState;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-
-public class CoinPriceHandler implements StateHandler {
+public class HelpStateHandler implements StateHandler {
 
     @Override
     public BotState handle(Message message) {
         String inputMsg = message.getText();
         BotState botState;
 
-        if ("Назад".equals(inputMsg)) botState = BotState.BINANCE;
+        if ("Зрозуміло".equals(inputMsg)) botState = BotState.MAIN_MENU;
         else {
-            botState = BotState.COIN_PAIR;
+            botState = BotState.HELP;
         }
         return botState;
     }

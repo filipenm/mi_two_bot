@@ -1,4 +1,4 @@
-package com.mi_two_bot.bot.service;
+package com.mi_two_bot.bot.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
