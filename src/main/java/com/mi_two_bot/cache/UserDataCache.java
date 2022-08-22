@@ -4,7 +4,8 @@ import com.mi_two_bot.bot.BotState;
 import com.mi_two_bot.core.ApplicationManager;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserDataCache implements DataCache {

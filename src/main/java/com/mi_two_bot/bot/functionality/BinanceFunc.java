@@ -20,6 +20,7 @@ public class BinanceFunc {
         List<String> coins = List.of(message.getText().toUpperCase().split(" "));
         String price = null;
         String response;
+        SendMessage sendMessage;
         String url = BINANCE_API_URI + "/ticker/price?symbol=" + coins.get(0) + coins.get(1);
         try {
             response = RequestUtils.get(url).asString();
@@ -27,9 +28,11 @@ public class BinanceFunc {
             app.log().debug(price);
         } catch (Exception ex) {
             app.log().error("Unable to find price for the coin pair");
+            price = "Unable to find price for the coin pair";
         } finally {
             assert price != null;
-            return new SendMessage(message.getChatId(), price);
+            sendMessage = new SendMessage(message.getChatId(), price);
         }
+        return sendMessage;
     }
 }

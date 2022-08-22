@@ -30,9 +30,7 @@ public class MainMenuService {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
         row1.add(new KeyboardButton("Музика"));
-        row1.add(new KeyboardButton("Binance"));
-        row2.add(new KeyboardButton("Нагадування"));
-        row2.add(new KeyboardButton("Погода"));
+        row2.add(new KeyboardButton("Binance"));
         keyboard.add(row1);
         keyboard.add(row2);
 

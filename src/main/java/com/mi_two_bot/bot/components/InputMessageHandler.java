@@ -1,4 +1,4 @@
-package com.mi_two_bot.bot.components.input_messages;
+package com.mi_two_bot.bot.components;
 
 import com.mi_two_bot.bot.BotState;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

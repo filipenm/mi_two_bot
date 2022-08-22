@@ -1,7 +1,7 @@
 package com.mi_two_bot.bot.components.input_messages;
 
 import com.mi_two_bot.bot.BotState;
-import com.mi_two_bot.bot.services.MusicMenuService;
+import com.mi_two_bot.bot.components.InputMessageHandler;
 import com.mi_two_bot.bot.services.ReplyMessagesService;
 import com.mi_two_bot.bot.services.SpotifyMenuService;
 import org.springframework.stereotype.Component;
