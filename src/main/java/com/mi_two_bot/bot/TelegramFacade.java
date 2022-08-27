@@ -1,6 +1,7 @@
 package com.mi_two_bot.bot;
 
 import com.mi_two_bot.bot.components.BotStateContext;
+import com.mi_two_bot.cache.StateCache;
 import com.mi_two_bot.cache.UserDataCache;
 import com.mi_two_bot.core.ApplicationManager;
 import lombok.extern.slf4j.Slf4j;
@@ -25,27 +26,51 @@ public class TelegramFacade {
         this.botStateContext = botStateContext;
     }
 
+    private boolean needCustomProcess(BotState botState) {
+        return botState == BotState.PAIR_PRICE;
+    }
 
-    public SendMessage handleUpdate(Update update) {
-        SendMessage replyMessage = null;
-        Message message = update.getMessage();
+    private boolean isBackMessage(Message message) {
+        return message.getText().equalsIgnoreCase("назад");
+    }
 
-        message = update.getMessage();
-        if (message != null && message.hasText()) {
-            app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
-                    message.getFrom().getUserName(), message.getChatId(), message.getText()));
-            replyMessage = handleInputMessage(message);
+    private SendMessage handleNonDefaultMessages(SendMessage replyMessage, Message message, BotState botState) {
+        int userId = message.getFrom().getId();
+        if (botState == BotState.PAIR_PRICE) {
+            botState = BotState.PAIR_PRICE_CALC;
+            userDataCache.setUsersCurrentBotState(userId, botState);
+            replyMessage = botStateContext.processInputMessage(botState, message);
         }
         return replyMessage;
     }
 
-    private SendMessage handleInputMessage(Message message) {
-        String inputMsg = message.getText();
+    public SendMessage handleUpdate(Update update) {
+        SendMessage replyMessage = null;
+        Message message = update.getMessage();
         int userId = message.getFrom().getId();
-        BotState botState;
+        BotState botState = userDataCache.getUsersCurrentBotState(userId);
+        message = update.getMessage();
+
+        if (needCustomProcess(botState) && !isBackMessage(message)) {
+            replyMessage = handleNonDefaultMessages(null, message, botState);
+        }
+        else if (message.hasText()) {
+            app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
+                    message.getFrom().getUserName(), message.getChatId(), message.getText()));
+            replyMessage = handleInputMessage(message);
+        }
+
+        return replyMessage;
+    }
+
+    private SendMessage handleInputMessage(Message message) {
+        String inputMsg = message.getText().toLowerCase();
+        int userId = message.getFrom().getId();
+        BotState botState = userDataCache.getUsersCurrentBotState(userId);
         SendMessage replyMessage;
 
-        switch (inputMsg.toLowerCase()) {
+        switch (inputMsg) {
+            case "назад" -> botState = new StateCache().getPreviousBotState(userDataCache.getUsersCurrentBotState(userId));
             case "музика" -> botState = BotState.MUSIC;
             case "binance" -> botState = BotState.BINANCE;
             case "змінити лінк" -> botState = BotState.CHANGE_LINK;
@@ -54,16 +79,9 @@ public class TelegramFacade {
             case "spotify" -> botState = BotState.SPOTIFY;
             case "apple music" -> botState = BotState.APPLE_MUSIC;
             case "youtube music" -> botState = BotState.YOUTUBE_MUSIC;
-            case "назад" -> botState = BotState.MAIN_MENU;
-            default -> botState = userDataCache.getUsersCurrentBotState(userId);
         }
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);
-
-        if (botState == BotState.PAIR_PRICE) {
-            botState = BotState.PAIR_PRICE_CALC;
-            userDataCache.setUsersCurrentBotState(userId, botState);
-        }
 
         return replyMessage;
     }

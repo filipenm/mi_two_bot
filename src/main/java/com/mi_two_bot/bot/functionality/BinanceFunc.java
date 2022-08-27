@@ -18,8 +18,7 @@ public class BinanceFunc {
 
     public SendMessage getPrice(Message message) {
         List<String> coins = List.of(message.getText().toUpperCase().split(" "));
-        String price = null;
-        String response;
+        String price = null, response;
         SendMessage sendMessage;
         String url = BINANCE_API_URI + "/ticker/price?symbol=" + coins.get(0) + coins.get(1);
         try {
