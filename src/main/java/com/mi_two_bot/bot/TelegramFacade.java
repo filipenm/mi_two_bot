@@ -30,6 +30,10 @@ public class TelegramFacade {
         return botState == BotState.PAIR_PRICE;
     }
 
+    private boolean isBackMessage(Message message) {
+        return message.getText().equalsIgnoreCase("назад");
+    }
+
     private SendMessage handleNonDefaultMessages(SendMessage replyMessage, Message message, BotState botState) {
         int userId = message.getFrom().getId();
         if (botState == BotState.PAIR_PRICE) {
@@ -40,32 +44,33 @@ public class TelegramFacade {
         return replyMessage;
     }
 
-
     public SendMessage handleUpdate(Update update) {
         SendMessage replyMessage = null;
         Message message = update.getMessage();
         int userId = message.getFrom().getId();
         BotState botState = userDataCache.getUsersCurrentBotState(userId);
-
         message = update.getMessage();
-        if (message != null && message.hasText()) {
+
+        if (needCustomProcess(botState) && !isBackMessage(message)) {
+            replyMessage = handleNonDefaultMessages(null, message, botState);
+        }
+        else if (message.hasText()) {
             app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
                     message.getFrom().getUserName(), message.getChatId(), message.getText()));
             replyMessage = handleInputMessage(message);
         }
-        if (needCustomProcess(botState)) {
-            replyMessage = handleNonDefaultMessages(null, message, botState);
-        }
+
         return replyMessage;
     }
 
     private SendMessage handleInputMessage(Message message) {
-        String inputMsg = message.getText();
+        String inputMsg = message.getText().toLowerCase();
         int userId = message.getFrom().getId();
         BotState botState = userDataCache.getUsersCurrentBotState(userId);
         SendMessage replyMessage;
 
-        switch (inputMsg.toLowerCase()) {
+        switch (inputMsg) {
+            case "назад" -> botState = new StateCache().getPreviousBotState(userDataCache.getUsersCurrentBotState(userId));
             case "музика" -> botState = BotState.MUSIC;
             case "binance" -> botState = BotState.BINANCE;
             case "змінити лінк" -> botState = BotState.CHANGE_LINK;
@@ -74,7 +79,6 @@ public class TelegramFacade {
             case "spotify" -> botState = BotState.SPOTIFY;
             case "apple music" -> botState = BotState.APPLE_MUSIC;
             case "youtube music" -> botState = BotState.YOUTUBE_MUSIC;
-            case "назад" -> botState = new StateCache().getPreviousBotState(userDataCache.getUsersCurrentBotState(userId));
         }
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);

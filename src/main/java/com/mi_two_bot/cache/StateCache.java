@@ -8,8 +8,7 @@ public class StateCache {
             case BINANCE, MUSIC -> current = BotState.MAIN_MENU;
             case CHANGE_LINK -> current = BotState.MUSIC;
             case SPOTIFY, APPLE_MUSIC, YOUTUBE_MUSIC -> current = BotState.CHANGE_LINK;
-            case PAIR_PRICE -> current = BotState.BINANCE;
-            case PAIR_PRICE_CALC -> current = BotState.PAIR_PRICE;
+            case PAIR_PRICE, PAIR_PRICE_CALC -> current = BotState.BINANCE;
         }
         return current;
     }
