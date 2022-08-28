@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mi_two_bot.core.constants.EmojiConstants.*;
+
 @Service
 public class MainMenuService {
     public SendMessage getMainMenuMessage(final long chatId, final String textMessage) {
@@ -29,8 +31,8 @@ public class MainMenuService {
 
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
-        row1.add(new KeyboardButton("Музика"));
-        row2.add(new KeyboardButton("Binance"));
+        row1.add(new KeyboardButton(NOTE + " Музика " + NOTE));
+        row2.add(new KeyboardButton(UPWARDS_TREND + " Binance " + DOWNWARDS_TREND));
         keyboard.add(row1);
         keyboard.add(row2);
 

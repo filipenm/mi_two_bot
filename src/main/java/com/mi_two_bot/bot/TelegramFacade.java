@@ -53,8 +53,7 @@ public class TelegramFacade {
 
         if (needCustomProcess(botState) && !isBackMessage(message)) {
             replyMessage = handleNonDefaultMessages(null, message, botState);
-        }
-        else if (message.hasText()) {
+        } else if (message.hasText()) {
             app.log().info(String.format("New message from User: %s, chatId: %s,  with text: %s",
                     message.getFrom().getUserName(), message.getChatId(), message.getText()));
             replyMessage = handleInputMessage(message);
@@ -63,22 +62,32 @@ public class TelegramFacade {
         return replyMessage;
     }
 
+    private String[] getPossibleStates() {
+        return new String[]{"назад", "музика", "binance", "змінити лінк", "help", "ціна пари", "spotify", "apple music", "youtube music"};
+    }
+
     private SendMessage handleInputMessage(Message message) {
         String inputMsg = message.getText().toLowerCase();
         int userId = message.getFrom().getId();
         BotState botState = userDataCache.getUsersCurrentBotState(userId);
         SendMessage replyMessage;
+        String[] states = getPossibleStates();
 
-        switch (inputMsg) {
-            case "назад" -> botState = new StateCache().getPreviousBotState(userDataCache.getUsersCurrentBotState(userId));
-            case "музика" -> botState = BotState.MUSIC;
-            case "binance" -> botState = BotState.BINANCE;
-            case "змінити лінк" -> botState = BotState.CHANGE_LINK;
-            case "help" -> botState = BotState.HELP;
-            case "ціна пари" -> botState = BotState.PAIR_PRICE;
-            case "spotify" -> botState = BotState.SPOTIFY;
-            case "apple music" -> botState = BotState.APPLE_MUSIC;
-            case "youtube music" -> botState = BotState.YOUTUBE_MUSIC;
+        int i;
+        for (i = 0; i < states.length; ++i) {
+            if (inputMsg.contains(states[i])) break;
+        }
+
+        switch (i) {
+            case 0 -> botState = new StateCache().getPreviousBotState(userDataCache.getUsersCurrentBotState(userId));
+            case 1 -> botState = BotState.MUSIC;
+            case 2 -> botState = BotState.BINANCE;
+            case 3 -> botState = BotState.CHANGE_LINK;
+            case 4 -> botState = BotState.HELP;
+            case 5 -> botState = BotState.PAIR_PRICE;
+            case 6 -> botState = BotState.SPOTIFY;
+            case 7 -> botState = BotState.APPLE_MUSIC;
+            case 8 -> botState = BotState.YOUTUBE_MUSIC;
         }
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = botStateContext.processInputMessage(botState, message);
